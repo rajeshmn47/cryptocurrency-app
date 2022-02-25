@@ -17,6 +17,8 @@
   width: 20vw;
   height: 40vh;
   padding: 1vmax;
+  box-shadow: 0 4px 8px 0 rgba(182, 176, 176, 0.2), 0 6px 20px 0 rgba(167, 158, 158, 0.19);
+
 }
 .title{
   display: flex;
@@ -33,4 +35,13 @@
   background-color:rgb(158, 158, 194) ;
   border-top: 3px solid white;
   width: 30vw;
+}
+.pagination{
+  background-color:rgb(158, 158, 194) ;
+  width: 100vw;
+  height: 20vh;
+  display: flex;
+justify-content: center;
+
+align-items: center;
 }

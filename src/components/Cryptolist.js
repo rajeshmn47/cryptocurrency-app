@@ -2,6 +2,7 @@ import {useGetCryptosQuery} from '../services/Cryptoapi'
 import React, { useEffect, useState } from 'react';
 import millify from 'millify';
 import { Link } from 'react-router-dom';
+import Pagination from '@material-ui/lab/Pagination';
 
 
 export const Cryptolist=()=>{
@@ -10,11 +11,20 @@ export const Cryptolist=()=>{
     const { data, isFetching } = useGetCryptosQuery(page);
     const [searchTerm, setSearchTerm] = useState('');
     console.log(cryptos)
+      
+      
     useEffect(() => {
      console.log(data&&data?.data[0].screen_data.crypto_data)
+     const home=(data&&data?.data[0].screen_data.crypto_data)
+     console.log(home)
+     console.log(home)
      setCryptos(data&&data?.data[0].screen_data.crypto_data)
     
       }, [ searchTerm,data,page]);
+const change=(event,value)=>{
+console.log(event,value)
+setPage(value)
+}
     return(
         <>
         <div className='title'>coins list</div>
@@ -30,6 +40,9 @@ export const Cryptolist=()=>{
     </div>
 </>
 )}
+</div>
+<div className='pagination'>
+<Pagination count={30} page={page} onChange={change} style={{color:'white'}}/>
 </div>
 </>
     )
