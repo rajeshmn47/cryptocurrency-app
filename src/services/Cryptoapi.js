@@ -10,10 +10,10 @@ const createRequest = (url) => ({ url, headers: cryptoApiHeaders });
 
 export const cryptoApi = createApi({
   reducerPath: 'cryptoApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://investing-cryptocurrency-markets.p.rapidapi.com/coins/list' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://investing-cryptocurrency-markets.p.rapidapi.com' }),
   endpoints: (builder) => ({
     getCryptos: builder.query({
-      query: (count) => createRequest(`/coins?limit=${count}`),
+      query: (count) => createRequest(`/coins/list?page=${count}`),
     }),
 
     getCryptoDetails: builder.query({
