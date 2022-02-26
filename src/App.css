@@ -30,6 +30,13 @@
   padding-top: 2vmax;
   text-transform: capitalize;
 }
+a{
+  text-decoration: none;
+  
+}
+a:hover{
+  pointer-events: stroke;
+}
 .border{
 
   background-color:rgb(158, 158, 194) ;
