@@ -7,7 +7,11 @@ import {
   makeStyles,
   ThemeProvider,
 } from "@material-ui/core";
+import moment from 'moment';
 import { Line } from "react-chartjs-2";
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
+
 
 export const Cryptodetails=()=>{
     const[currencydetails,setCurencydetails]=useState()
@@ -40,8 +44,8 @@ export const Cryptodetails=()=>{
           url: 'https://investing-cryptocurrency-markets.p.rapidapi.com/coins/get-historical-data',
           params: {
             pair_ID:id.id,
-            date_from: '26022021',
-            date_to: '19092021',
+            date_from: '01022022',
+            date_to: '27022022',
             lang_ID: '1',
             time_utc_offset: '28800',
             interval: 'day'
@@ -61,20 +65,21 @@ export const Cryptodetails=()=>{
     },[])
     return(
       <>
+      <div className="crypto">
       {currencydetails?(currencydetails.map((c)=>
         <>
         <h1>   {c.search_main_longtext}</h1>
         <Line
          data={{
           labels: historicaldata.map((coin) => {
-            let date =coin.date
-        
-            return date.toLocaleDateString();
+            
+            const d = new Date(coin.date*1000);
+            return d.toLocaleString()
           }),
 
           datasets: [
             {
-              data: historicaldata.map((coin) => coin.perc_chg),
+              data: historicaldata.map((coin) => (coin.price)),
               label: `Price ( Past2 Days ) in currency`,
               borderColor: "#EEBC1D",
             },
@@ -92,6 +97,7 @@ export const Cryptodetails=()=>{
       ):<CircularProgress   style={{ color: "gold" }}
       size={250}
       thickness={1}/>}
+      </div>
       </>
     )
 }

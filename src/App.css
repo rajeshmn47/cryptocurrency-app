@@ -49,6 +49,14 @@ a:hover{
   height: 20vh;
   display: flex;
 justify-content: center;
-
 align-items: center;
+}
+.crypto{
+  width:100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  flex-direction: column;
 }
