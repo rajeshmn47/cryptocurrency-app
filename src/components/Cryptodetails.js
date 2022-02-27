@@ -16,6 +16,7 @@ Chart.register(...registerables);
 export const Cryptodetails=()=>{
     const[currencydetails,setCurencydetails]=useState()
     const[historicaldata,setHistoricaldata]=useState([])
+    const dat=[{'p':1},{'p':2000},{'p':1},{'p':2}]
     const [days, setDays] = useState(1);
     const id=useParams()
     console.log(id)
@@ -33,8 +34,8 @@ export const Cryptodetails=()=>{
         };
         
         axios.request(options).then(function (response) {
-            console.log(response.data.data[0].screen_data.pairs_attr);
-            setCurencydetails(response.data.data[0].screen_data.pairs_attr)
+            console.log(response.data.data[0].screen_data.pairs_attr.reverse());
+            setCurencydetails(response.data.data[0].screen_data.pairs_attr.reverse())
             
         }).catch(function (error) {
             console.error(error);
@@ -44,11 +45,11 @@ export const Cryptodetails=()=>{
           url: 'https://investing-cryptocurrency-markets.p.rapidapi.com/coins/get-historical-data',
           params: {
             pair_ID:id.id,
-            date_from: '01022022',
+            date_from: '01022011',
             date_to: '27022022',
             lang_ID: '1',
-            time_utc_offset: '28800',
-            interval: 'day'
+            time_utc_offset: '00',
+            interval: 'month'
           },
           headers: {
             'x-rapidapi-host': 'investing-cryptocurrency-markets.p.rapidapi.com',
@@ -58,10 +59,13 @@ export const Cryptodetails=()=>{
         
         axios.request(options).then(function (response) {
           console.log(response.data.data[0].screen_data.data);
-          setHistoricaldata(response.data.data[0].screen_data.data)
+          setHistoricaldata(response.data.data[0].screen_data.data.reverse())
         }).catch(function (error) {
           console.error(error);
         });
+        var str = "2,dvsddfvdxv00";
+        const dsa=historicaldata.map((coin) =>{ return coin.price.replace(/\D/g,'')})
+        console.log(dsa)
     },[])
     return(
       <>
@@ -73,13 +77,13 @@ export const Cryptodetails=()=>{
          data={{
           labels: historicaldata.map((coin) => {
             
-            const d = new Date(coin.date*1000);
-            return d.toLocaleString()
+            const d = moment(coin.date*1000).format('YYYY')
+            return d
           }),
 
           datasets: [
             {
-              data: historicaldata.map((coin) => (coin.price)),
+              data: historicaldata.map((coin) =>{ return coin.price.replace(/\D/g,'')/10}),
               label: `Price ( Past2 Days ) in currency`,
               borderColor: "#EEBC1D",
             },
