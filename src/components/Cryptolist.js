@@ -32,25 +32,7 @@ setPage(value)
 }
     return(
         <>
-        <div className='title'>coins list</div>
-        <div className='border'></div>
-<div className='coinlist' ref={scroller}>
-{cryptos?.map((c)=>
- <>
- <Link to={`/details/${c.pair_id}`}>
- <div className='coin'>
-    <p>{c.name}</p>
-    <div>{<img src={c.flag_url} alt=''/>}</div>
-    <p style={{color:'red'}}>change:{c.change_percent_1d}</p>
-    <p style={{color:'green'}}>Market Cap:{millify(c.inst_market_cap_plain)}</p>
-    </div>
-    </Link>
-</>
-)}
-</div>
-<div className='pagination'>
-<Pagination count={30} page={page} onChange={change} style={{color:'white'}}/>
-</div>
+      <h1 style={{fontSize:'10vmax'}}>welcome</h1>
 </>
     )
 }

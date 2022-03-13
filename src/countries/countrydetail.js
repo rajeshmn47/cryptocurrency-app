@@ -51,14 +51,19 @@ export const Countrydetail=({countries})=>{
               map.on('load', () => {
                 map.on('load', () => {
                     map.addLayer({
-                      id: 'terrain-data',
-                      type: 'line',
-                      source: {
-                        type: 'vector',
-                        url: 'mapbox://mapbox.mapbox-terrain-v2'
-                      },
-                      'source-layer': 'contour'
-                    });
+                        "type": "geojson",
+                        "data": {
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [-77.0323, 38.9131]
+                            },
+                            "properties": {
+                                "title": "Mapbox DC",
+                                "marker-symbol": "monument"
+                            }
+                        }
+                    })
                   });
               });
         },[countries])
