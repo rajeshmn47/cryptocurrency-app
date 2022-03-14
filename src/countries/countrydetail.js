@@ -20,7 +20,7 @@ export const Countrydetail=({countries})=>{
     const [viewport, setViewport] = React.useState({
         latitude: 37.7577,
         longitude: -122.4376,
-        zoom: 8
+        zoom: 12
       });
       const[newPlace,setNewPlace]=React.useState({lat:37.7577
         ,long:-122.4376})
@@ -49,23 +49,50 @@ export const Countrydetail=({countries})=>{
             new mapboxgl.GeolocateControl({
               fitBoundsOptions: { maxZoom: 10 }}))
               map.on('load', () => {
-                map.on('load', () => {
-                    map.addLayer({
-                        "type": "geojson",
-                        "data": {
-                            "type": "Feature",
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": [-77.0323, 38.9131]
-                            },
-                            "properties": {
-                                "title": "Mapbox DC",
-                                "marker-symbol": "monument"
-                            }
-                        }
-                    })
-                  });
-              });
+                map.addSource('country-boundaries', {
+                  type: 'vector',
+                  "url": "mapbox://mapbox.country-boundaries-v1"
+                });
+                map.addLayer({
+                  id: "undisputed country boundary fill",
+                  source: "country-boundaries",
+                  'source-layer': "country_boundaries",
+                  type: "fill",
+                  "filter": [
+                    "==",
+                    [
+                    "get",
+                    "disputed"
+                    ],
+                    "false"
+                    ],
+                paint: {
+                    "fill-color": "green",
+                    "fill-outline-color": "red"
+                    }                        
+                });
+                map.addLayer({
+                
+                    id: "disputed area boundary fill",
+                  source: "country-boundaries",
+                  'source-layer': "country_boundaries",
+                  type: "fill",
+                  "filter": [
+                    "==",
+                    [
+                    "get",
+                    "disputed"
+                    ],
+                    "true"
+                    ],
+                paint: {
+                    "fill-color": "yellow",
+                    "fill-outline-color": "red"
+                    }                        
+                });
+              })
+              
+              
         },[countries])
     return(
 <>
