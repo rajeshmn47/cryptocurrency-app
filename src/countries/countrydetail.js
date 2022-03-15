@@ -34,8 +34,14 @@ export const Countrydetail=({countries})=>{
         return item.alpha3Code === id;
       });
       console.log(country)
-    
+      function abc(a,b){
+        for(var i=0;i<country.borders.length;i++){
+          console.log(country.borders[i])
+        
+        }
+      }
       useEffect(() => {
+        abc()
           const map = new mapboxgl.Map({
             container: mapboxElRef.current,
             style: 'mapbox://styles/mapbox/streets-v11',
@@ -49,62 +55,102 @@ export const Countrydetail=({countries})=>{
             new mapboxgl.GeolocateControl({
               fitBoundsOptions: { maxZoom: 10 }}))
               map.on('load', () => {
-                map.addSource('country-boundaries', {
+                map.addSource('points', {
                   type: 'vector',
-                  "url": "mapbox://mapbox.country-boundaries-v1"
+                  data: {
+                    type: 'FeatureCollection',
+                    features: [{
+          
+                      type: 'vector',
+                      geometry: {
+                        type: 'vector',
+                        coordinates: [country.latlng[1],country.latlng[0]]
+                      },
+                      properties: {
+                        id: 1, // unique identifier in this case the index
+                        country: country.name,
+                        province: country.region,
+                        population: country.population,
+                    
+                      }
+                    }]
+                  }
                 });
-                map.addLayer({
-                  id: "undisputed country boundary fill",
-                  source: "country-boundaries",
-                  'source-layer': "country_boundaries",
-                  type: "fill",
-                  "filter": [
-                    "==",
-                    [
-                    "get",
-                    "disputed"
-                    ],
-                    "false"
-                    ],
-                paint: {
-                    "fill-color": "green",
-                    "fill-outline-color": "red"
-                    }                        
-                });
-                map.addLayer({
+                map.addLayer(
+                  {
+                    id: 'country-boundaries',
+                    source: {
+                      type: 'vector',
+                      url: 'mapbox://mapbox.country-boundaries-v1',
+                    },
+                    'source-layer': 'country_boundaries',
+                    type: 'fill',
+                    paint: {
+                      'fill-opacity': 0.4,
+                      'fill-color': 'blue'
+                    },
+                  },
+                  'country-label'
+                ); 
+                map.addLayer(
+                  {
+                    id: 'borders',
+                    source: {
+                      type: 'vector',
+                      url: 'mapbox://mapbox.country-boundaries-v1',
+                    },
+                    'source-layer': 'country_boundaries',
+                    type: 'fill',
+                    paint: {
+                      'fill-opacity': 0.4,
+                      'fill-color': 'red'
+                    },
+                  },
+                  'country-label'
+                );
+             
+              
+                map.setFilter('country-boundaries', [
+                  "in",
+                  "iso_3166_1_alpha_3",
+                  country.alpha3Code,
+                  
+                ]);
+                                  map.setFilter('borders', [
+                    "in",
+                    "iso_3166_1_alpha_3",
+                country.borders[0],
+                country.borders[1],
+                country.borders[3],
+                country.borders[4],
                 
-                    id: "disputed area boundary fill",
-                  source: "country-boundaries",
-                  'source-layer': "country_boundaries",
-                  type: "fill",
-                  "filter": [
-                    "==",
-                    [
-                    "get",
-                    "disputed"
-                    ],
-                    "true"
-                    ],
-                paint: {
-                    "fill-color": "yellow",
-                    "fill-outline-color": "red"
-                    }                        
-                });
+                  ])
+                  map.setFilter('borders', [
+                    "in",
+                    "iso_3166_1_alpha_3",
+              
+                country.borders[2]
+                  ])
+                
               })
               
               
         },[countries])
+     
     return(
 <>
+<div className="flex justify-center align-center">
+  <div className="p-2 m-2">
 <h1>{country.name}</h1>
 <img src={country.flag} alt='' width='200'/>
 <p>population:{millify(country.population)}</p>
-<div style={{width:'100vw'}}>
+</div>
+<div className='p-2 m-2'>
       <div className="mapContainer" >
         <div className="mapBox"  ref={mapboxElRef} />
       </div>
     </div>
-  
+    </div>
 </>
     )
 }
