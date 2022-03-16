@@ -20,7 +20,7 @@ export const Countrydetail=({countries})=>{
     const [viewport, setViewport] = React.useState({
         latitude: 37.7577,
         longitude: -122.4376,
-        zoom: 12
+        zoom: 20
       });
       const[newPlace,setNewPlace]=React.useState({lat:37.7577
         ,long:-122.4376})
@@ -57,24 +57,7 @@ export const Countrydetail=({countries})=>{
               map.on('load', () => {
                 map.addSource('points', {
                   type: 'vector',
-                  data: {
-                    type: 'FeatureCollection',
-                    features: [{
-          
-                      type: 'vector',
-                      geometry: {
-                        type: 'vector',
-                        coordinates: [country.latlng[1],country.latlng[0]]
-                      },
-                      properties: {
-                        id: 1, // unique identifier in this case the index
-                        country: country.name,
-                        province: country.region,
-                        population: country.population,
-                    
-                      }
-                    }]
-                  }
+                  'data': 'mapbox://mapbox.660ui7x6'
                 });
                 map.addLayer(
                   {
@@ -86,7 +69,7 @@ export const Countrydetail=({countries})=>{
                     'source-layer': 'country_boundaries',
                     type: 'fill',
                     paint: {
-                      'fill-opacity': 0.4,
+                      'fill-opacity': 0.7,
                       'fill-color': 'blue'
                     },
                   },
@@ -119,18 +102,9 @@ export const Countrydetail=({countries})=>{
                                   map.setFilter('borders', [
                     "in",
                     "iso_3166_1_alpha_3",
-                country.borders[0],
-                country.borders[1],
-                country.borders[3],
-                country.borders[4],
-                
-                  ])
-                  map.setFilter('borders', [
-                    "in",
-                    "iso_3166_1_alpha_3",
-              
-                country.borders[2]
-                  ])
+                 
+                  ].concat(country.borders))
+               
                 
               })
               
