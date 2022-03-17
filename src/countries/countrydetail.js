@@ -34,14 +34,9 @@ export const Countrydetail=({countries})=>{
         return item.alpha3Code === id;
       });
       console.log(country)
-      function abc(a,b){
-        for(var i=0;i<country.borders.length;i++){
-          console.log(country.borders[i])
-        
-        }
-      }
+     
       useEffect(() => {
-        abc()
+      
           const map = new mapboxgl.Map({
             container: mapboxElRef.current,
             style: 'mapbox://styles/mapbox/streets-v11',
@@ -115,9 +110,13 @@ export const Countrydetail=({countries})=>{
 <>
 <div className="flex justify-center align-center">
   <div className="p-2 m-2">
-<h1>{country.name}</h1>
-<img src={country.flag} alt='' width='200'/>
-<p>population:{millify(country.population)}</p>
+<h1 className='m-1'>{country.name}</h1>
+<img src={country.flag} alt='' width='200' className="m-1"/>
+<p className="mt-1">population:{millify(country.population)}</p>
+<p className='mt-1'>Bordering countries:{country.borders?.map((c,index)=>
+<p className='opacity-70'>{index+1}){countries.find((s)=>s.alpha3Code===c).name}</p>)}</p>
+<p className='mt-1'>Languages spoken:{country.languages.map((c,index)=>
+<p className='opacity-70'>{index+1}){c.name}</p>)}</p>
 </div>
 <div className='p-2 m-2'>
       <div className="mapContainer" >
