@@ -43,9 +43,9 @@ function App() {
   
    <BrowserRouter>
    <Routes>
-   <Route path='/' element={<Cryptolist/>}/>
+   <Route path='/cryptos' element={<Cryptolist/>}/>
      <Route path='/details/:id' element={<Cryptodetails/>}/>
-     <Route path='/countries' element={<Countries countries={countries}/>}/>
+     <Route path='/' element={<Countries countries={countries}/>}/>
      <Route path='/countrydetail/:id' element={<Countrydetail countries={countries}/>}/>
    </Routes>
    </BrowserRouter></>
